@@ -9,10 +9,10 @@ disp("Data dimensions: " + mat2str(size(data)));
 disp("Frequency: " + num2str(fs));
 
 
-bands = get_bands(fs);
-gains = zeros(1, 9);
+bands = get_bands();
+gains = zeros(1, length(bands));
 for i = 1:length(bands)
-    gains(i) = get_number("Enter gain for " + mat2str(bands(i,:) * (fs / 2)) + " (between -20 dB and 20 dB): ", @(x) x >= -20 && x <= 20);
+    gains(i) = get_number("Enter gain for " + mat2str(bands(i,:)) + "Hz (between -20 dB and 20 dB): ", @(x) x >= -20 && x <= 20);
 end
 
 
