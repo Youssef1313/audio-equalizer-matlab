@@ -7,9 +7,9 @@ band_norm = (band * 2)/(fs);
             return
         end
         if band(i) == 0
-            filters(i) = butter(5,band_norm(2)); 
+            filters(i,:) = butter(5,band_norm(2)); 
         else
-            filter(i) =  butter(3,band_norm(i,;),'bandpass'); 
+            filter(i,:) =  butter(3,band_norm(i,;),'bandpass'); 
         end
     end
 end
