@@ -2,7 +2,7 @@ band =[0 170;170 310;310 600;600 1000;1000 3000;3000 6000;6000 12000;12000 14000
 function filters = iir_filters(order,fs)
 filters = []
 band_norm = (band * 2)/(fs);
-    for i = 1:2:18
+    for i = 1:9
         if band_norm(i+1) >= 1
             return
         end
@@ -13,3 +13,4 @@ band_norm = (band * 2)/(fs);
         end
     end
 end
+
