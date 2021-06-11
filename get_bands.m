@@ -57,5 +57,5 @@ function bands = get_bands(fs)
     else
         throw(MException("The given frequency is too low."));
     end
-    bands = bands / fs;
+    bands = bands / (fs / 2);
 end
