@@ -24,12 +24,12 @@ output_fs = get_number("Enter a valid output sample rate: ", @(x) x > 340);
 
 if filter_type == "fir"
    fir_order = 40;
-   filters = fir_filters(fir_order, output_fs);
+   filters = fir_filters(fir_order, output_fs, bands);
 else
    iir_order = 4;
-   filters = iir_filters(iir_order, output_fs);
+   filters = iir_filters(iir_order, output_fs, bands);
 end
 
 for filter = filters
-    fvtool(filter);
+    fvtool(filter.Numerator, filter.Denominator);
 end
