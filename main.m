@@ -30,6 +30,9 @@ else
    filters = iir_filters(iir_order, output_fs, bands);
 end
 
-for filter = filters
-    fvtool(filter.Numerator, filter.Denominator);
+for i = 1:length(filters)
+    x = fvtool(filters(i).Numerator, filters(i).Denominator);
+    x.NormalizedFrequency = 'off';
+    x.fs = output_fs;
+    x.Name = [mat2str(bands(i,:)) 'Hz'];
 end
