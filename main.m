@@ -22,7 +22,7 @@ filter_type = get_string('Enter filter type ("fir" or "iir"):', @(x) strcmp('fir
 % be greater than 340.
 output_fs = get_number('Enter a valid output sample rate: ', @(x) x > 340);
 
-if strcmp('fir','fir')
+if strcmp('fir',output_fs)
    fir_order = 40;
    filters = fir_filters(fir_order, output_fs, bands);
 else
