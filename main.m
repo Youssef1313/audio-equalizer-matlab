@@ -15,26 +15,21 @@ for i = 1:length(bands)
     gains(i) = get_number("Enter gain for " + mat2str(bands(i,:)) + "Hz (between -20 dB and 20 dB): ", @(x) x >= -20 && x <= 20);
 end
 
+filter_type = get_string("Enter filter type ('fir' or 'iir'): ", @(x) x == "fir" || x == "iir");
 
-%filter_order = 100;
-% band1 = fir1(filter_order, 170 / Fs);
-% band2 = fir1(filter_order, [170 310] / Fs);
-% band3 = fir1(filter_order, [310 600] / Fs);
-% band4 = fir1(filter_order, [600 1000] / Fs);
-% band5 = fir1(filter_order, [1000 3000] / Fs);
-% band6 = fir1(filter_order, [3000 6000] / Fs);
-% band7 = fir1(filter_order, [6000 12000] / Fs);
-% band8 = fir1(filter_order, [12000 14000] / Fs);
-% band9 = fir1(filter_order, [14000 16000] / Fs);
+% The lowpass filter has cutoff freq = 170.
+% Since the normalized frequency = cutoff / (fs/2), fs must
+% be greater than 340.
+output_fs = get_number("Enter a valid output sample rate: ", @(x) x > 340);
 
+if filter_type == "fir"
+   fir_order = 40;
+   filters = fir_filters(fir_order, output_fs);
+else
+   iir_order = 4;
+   filters = iir_filters(iir_order, output_fs);
+end
 
-%test = apply_filters(X, { band1, band2, band3, band4, band5, band6, band7, band8 });
-%audiowrite('out.wav', test, Fs);
-
-function f = apply_filters(signal, band_filters)
-    output = signal .* 0;
-    for i = 1:length(band_filters)
-        output = output + filter(cell2mat(band_filters(i)), 1, signal);
-    end
-    f = output;
+for filter = filters
+    fvtool(filter);
 end
