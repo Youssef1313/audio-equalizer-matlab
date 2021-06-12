@@ -1,6 +1,6 @@
 function filters = iir_filters(order,fs,bands)
     filters = [];
-    for i = 1:9
+    for i = 1:length(bands)
         band = bands(i,:) / (fs / 2);
         if band(2) >= 1
             return
@@ -11,7 +11,6 @@ function filters = iir_filters(order,fs,bands)
         else
             [b, a] =  butter(order,band,'bandpass'); 
         end
-        filter = Filter(b, a);
-        filters = [filters filter];
+        filters = [filters Filter(b, a)];
     end
 end
