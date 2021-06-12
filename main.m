@@ -30,9 +30,13 @@ else
    filters = iir_filters(iir_order, output_fs, bands);
 end
 
+filtered = data .* 0;
 for i = 1:length(filters)
     x = fvtool(filters(i).Numerator, filters(i).Denominator);
     x.NormalizedFrequency = 'off';
     x.fs = output_fs;
     x.Name = [mat2str(bands(i,:)) 'Hz'];
+    filtered = filtered + filter(10 ^ (gains(i) / 20) * filters(i).Numerator, filters(i).Denominator, data);
 end
+savedfilename = input('Enter file name <includes path & .wav>:  ', 's');
+audiowrite(savedfilename, filtered, output_fs);
