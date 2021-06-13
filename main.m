@@ -44,5 +44,4 @@ end
 [file, path] = uiputfile('*.wav');
 fullFileName = fullfile(path, file);
 
-% Normalize the signal to ±1 to avoid data clipping when writing.
-audiowrite(fullFileName, filtered / max(abs(filtered)), output_fs);
+audiowrite(fullFileName, filtered, output_fs);
