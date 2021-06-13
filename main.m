@@ -32,14 +32,18 @@ else
    filters = iir_filters(iir_order, output_fs, bands);
 end
 
-filtered = data .* 0;
+acc_filtered = data .* 0;
 for i = 1:length(filters)
     x = fvtool(filters(i).Numerator, filters(i).Denominator);
     x.NormalizedFrequency = 'off';
     x.fs = output_fs;
     x.Name = [mat2str(bands(i,:)) 'Hz'];
-    filtered = filtered + filter(10 ^ (gains(i) / 20) * filters(i).Numerator, filters(i).Denominator, data);
+    filtered = filter(10 ^ (gains(i) / 20) * filters(i).Numerator, filters(i).Denominator, data);
+    plot_time_frequency_domain(filtered, output_fs);
+    acc_filtered = filtered + acc_filtered ;
 end
+
+plot_time_frequency_domain(data, fs, acc_filtered, output_fs);
 
 [file, path] = uiputfile('*.wav');
 fullFileName = fullfile(path, file);
