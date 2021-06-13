@@ -8,6 +8,8 @@ disp(strcat('Path: ',fullFileName));
 disp(strcat('Data dimensions: ', mat2str(size(data))));
 disp(strcat('Frequency: ' , num2str(fs)));
 
+plot_time_frequency_domain(data, fs);
+
 
 bands = get_bands();
 gains = zeros(1, length(bands));
