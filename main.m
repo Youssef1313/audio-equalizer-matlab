@@ -38,5 +38,8 @@ for i = 1:length(filters)
     x.Name = [mat2str(bands(i,:)) 'Hz'];
     filtered = filtered + filter(10 ^ (gains(i) / 20) * filters(i).Numerator, filters(i).Denominator, data);
 end
-savedfilename = input('Enter file name <includes path & .wav>:  ', 's');
-audiowrite(savedfilename, filtered, output_fs);
+
+[file, path] = uiputfile('*.wav');
+fullFileName = fullfile(path, file);
+
+audiowrite(fullFileName, filtered, output_fs);

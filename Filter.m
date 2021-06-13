@@ -12,4 +12,3 @@ classdef Filter
         end
     end
 end
-
