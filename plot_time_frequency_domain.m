@@ -1,4 +1,4 @@
-function plot_time_frequency_domain(data, fs, varargin)
+function plot_time_frequency_domain(data, fs, range_of_freq, varargin)
     sub_plots = 1;
     f = figure;
     f.Position = [100 100 540 400];
@@ -13,14 +13,14 @@ function plot_time_frequency_domain(data, fs, varargin)
 
         subplot(2, sub_plots , 3);
         plot(frequency_audio, abs(fft_data));
-        title('FFT of Output Audio');
+        title('FFT of Input ' );
         xlabel('Frequency(Hz)');
         ylabel('Amplitude');
 
         subplot(2, sub_plots, 4);
         t = (0:length_output-1)/ varargin{2};
         plot(t, varargin{1})
-        title('Output Audio');
+        title('Input Audio');
         xlabel('Time(s)');
         ylabel('Amplitude');
     end
@@ -33,14 +33,14 @@ function plot_time_frequency_domain(data, fs, varargin)
     
     subplot(2, sub_plots, 1);
     plot(frequency_audio, abs(fft_data));
-    title('FFT of Input Audio');
+    title(['FFT of Input Audio ' range_of_freq]);
     xlabel('Frequency(Hz)');
     ylabel('Amplitude');
 
     subplot(2, sub_plots, 2);
     t = (0:length_data-1)/ fs;
     plot(t, data)
-    title('Input Audio');
+    title(['Input Audio ' range_of_freq]);
     xlabel('Time(s)');
     ylabel('Amplitude');
 end
