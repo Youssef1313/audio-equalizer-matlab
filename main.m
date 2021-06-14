@@ -57,4 +57,4 @@ plot_time_frequency_domain(data, original_fs, acc_filtered, output_fs);
 [file, path] = uiputfile('*.wav');
 fullFileName = fullfile(path, file);
 
-audiowrite(fullFileName, filtered, output_fs);
+audiowrite(fullFileName, acc_filtered, output_fs);
