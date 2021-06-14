@@ -19,7 +19,7 @@ function plot_time_frequency_domain(data, fs, varargin)
 
         subplot(2, sub_plots, 4);
         t = (0:length_output-1)/ varargin{2};
-        plot(t, data)
+        plot(t, varargin{1})
         title('Output Audio');
         xlabel('Time(s)');
         ylabel('Amplitude');
