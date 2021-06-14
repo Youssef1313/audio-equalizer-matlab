@@ -12,6 +12,14 @@ plot_time_frequency_domain(data, fs);
 
 
 bands = get_bands();
+
+original_fs = fs;
+if bands(end, end)>= fs/2
+   new_fs = 2 * (bands(end, end) + 11);
+   data = resample(data, new_fs, fs); 
+   fs = new_fs;
+end
+
 gains = zeros(1, length(bands));
 for i = 1:length(bands)
     gains(i) = get_number(['Enter gain for ' mat2str(bands(i,:)) 'Hz (between -20 dB and 20 dB): '], @(x) x >= -20 && x <= 20);
@@ -43,7 +51,8 @@ for i = 1:length(filters)
     acc_filtered = filtered + acc_filtered ;
 end
 
-plot_time_frequency_domain(data, fs, acc_filtered, output_fs);
+acc_fitered = resample(acc_filtered, output_fs, fs); %resample to the output fs
+plot_time_frequency_domain(data, original_fs, acc_filtered, output_fs);
 
 [file, path] = uiputfile('*.wav');
 fullFileName = fullfile(path, file);
