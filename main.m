@@ -51,7 +51,7 @@ for i = 1:length(filters)
     acc_filtered = filtered + acc_filtered ;
 end
 
-acc_fitered = resample(acc_filtered, output_fs, fs); %resample to the output fs
+acc_filtered = resample(acc_filtered, output_fs, fs); %resample to the output fs
 plot_time_frequency_domain(data, original_fs, acc_filtered, output_fs);
 
 [file, path] = uiputfile('*.wav');
