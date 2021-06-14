@@ -34,10 +34,10 @@ output_fs = get_number('Enter a valid output sample rate: ', @(x) x > 340);
 
 if strcmp('fir',output_fs)
    fir_order = 40;
-   filters = fir_filters(fir_order, output_fs, bands);
+   filters = fir_filters(fir_order, fs, bands);
 else
    iir_order = 4;
-   filters = iir_filters(iir_order, output_fs, bands);
+   filters = iir_filters(iir_order, fs, bands);
 end
 
 acc_filtered = data .* 0;
