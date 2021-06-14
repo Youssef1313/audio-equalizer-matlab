@@ -15,7 +15,8 @@ bands = get_bands();
 
 original_fs = fs;
 if bands(end, end)>= fs/2
-   new_fs = 2 * (bands(end, end) + 11);
+    margin = 11;
+   new_fs = 2 * (bands(end, end) + margin);
    data = resample(data, new_fs, fs); 
    fs = new_fs;
 end
