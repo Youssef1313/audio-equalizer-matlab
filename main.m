@@ -46,6 +46,7 @@ for i = 1:length(filters)
     plot_time_frequency_domain(filtered, fs, ['Output in time-domain for filter ' freq_range_plt(i,:)], ['Output in frequency-domain for filter ' freq_range_plt(i,:)]);
     acc_filtered = acc_filtered + filtered * db2mag(gains(i));
     [z, p, k] = tf2zpk(filters(i).Numerator, filters(i).Denominator);
+    order = filtord(filters(i).Numerator, filters(i).Denominator);
     fprintf('The gain of %s filter : %s  is %f , Order is %d \n',filter_type, freq_range_plt(i,:), k, order);
 end
 
