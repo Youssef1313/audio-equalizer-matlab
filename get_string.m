@@ -5,7 +5,7 @@ function f = get_string(prompt, predicate)
     while 1
         s = inputdlg(prompt);
         if predicate(s{1})
-            f = s;
+            f = s{1};
             break;
         end
     end
