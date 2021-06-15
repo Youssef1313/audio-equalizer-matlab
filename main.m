@@ -42,6 +42,12 @@ for i = 1:length(filters)
     x.NormalizedFrequency = 'off';
     x.fs = fs;
     x.Name = [mat2str(bands(i,:)) 'Hz'];
+    [z, p, k] = tf2zpk(filters(i).Numerator, filters(i).Denominator);
+    if strcmp('fir', filter_type)
+        fprintf('The gain of fir filter : %s  is %f , Order is 150 \n',freq_range_plt(i,:),k);
+    else
+        fprintf('The gain of iir filter : %s  is %f , Order is 4 \n',freq_range_plt(i,:),k);
+    end
     filtered = filter(filters(i).Numerator, filters(i).Denominator, data);
     plot_time_frequency_domain(filtered, output_fs, ['Filter output in time ' freq_range_plt(i,:)], ['Filter output in frequency ' freq_range_plt(i,:)]);
     acc_filtered = filtered * (10 ^ (gains(i) / 20)) + acc_filtered;
