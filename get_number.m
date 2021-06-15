@@ -3,7 +3,8 @@
 % a valid real number based on the validitation predicate.
 function f = get_number(prompt, predicate)
     while 1
-        n = str2double(input(prompt, 's'));
+        x = inputdlg(prompt);
+        n = str2double(x{1});
         if length(n) == 1 && isreal(n) && predicate(n)
             f = n;
             break;
