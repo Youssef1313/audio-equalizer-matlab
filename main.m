@@ -57,4 +57,4 @@ plot_time_frequency_domain(data, original_fs, 'Input in time ', 'Input in freq. 
 
 fullFileName = fullfile(path, 'output_sample_run.wav');
 audiowrite(fullFileName, acc_filtered, output_fs);
-fprintf('File saved in "%s"', fullFileName);
+fprintf('File saved in "%s"\n', fullFileName);
