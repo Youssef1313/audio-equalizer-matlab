@@ -3,8 +3,8 @@
 % a valid string based on the validitation predicate.
 function f = get_string(prompt, predicate)
     while 1
-        s = input(prompt, 's');
-        if predicate(s)
+        s = inputdlg(prompt);
+        if predicate(s{1})
             f = s;
             break;
         end
