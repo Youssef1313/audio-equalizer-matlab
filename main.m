@@ -17,7 +17,9 @@ fs = original_fs;
 if bands(end, end) >= fs / 2
     margin = 11;
     fs = 2 * (bands(end, end) + margin);
-    data = resample(data, fs, original_fs);
+    resampled_data = resample(data, fs, original_fs);
+else
+    resampled_data = data;
 end
 
 gains = zeros(1, length(bands));
@@ -37,12 +39,12 @@ else
     filters = iir_filters(iir_order, fs, bands);
 end
 
-acc_filtered = data .* 0;
+acc_filtered = resampled_data .* 0;
 
 freq_range_plt = [' 0-170  Hz'; '170-310 Hz'; '310-600 Hz'; '0.6-1  kHz'; '1-3    kHz'; '3-6    kHz'; '6-12   kHz'; '12-14  kHz'; '14-16  KHZ'];
 for i = 1:length(filters)
     plot_requirements(filters(i), fs, [mat2str(bands(i,:)) 'Hz']);
-    filtered = filter(filters(i).Numerator, filters(i).Denominator, data);
+    filtered = filter(filters(i).Numerator, filters(i).Denominator, resampled_data);
     plot_time_frequency_domain(filtered, fs, ['Output in time-domain for filter ' freq_range_plt(i,:)], ['Output in frequency-domain for filter ' freq_range_plt(i,:)]);
     acc_filtered = acc_filtered + filtered * db2mag(gains(i));
     [z, p, k] = tf2zpk(filters(i).Numerator, filters(i).Denominator);
@@ -53,7 +55,6 @@ end
 acc_filtered = resample(acc_filtered, output_fs, fs); % resample to the output fs
 plot_time_frequency_domain(data, original_fs, 'Input in time ', 'Input in freq. ', acc_filtered, output_fs, 'Output in freq.', 'Output in time.');
 
-[file, path] = uiputfile('*.wav');
-fullFileName = fullfile(path, file);
-
+fullFileName = fullfile(path, 'output_sample_run.wav');
 audiowrite(fullFileName, acc_filtered, output_fs);
+fprintf('File saved in "%s"', fullFileName);
