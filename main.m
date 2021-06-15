@@ -26,12 +26,13 @@ filter_type = get_string('Enter filter type ("fir" or "iir"):', @(x) strcmp('fir
 
 output_fs = get_number('Enter a valid output sample rate: ', @(x) x > 340);
 
+order = 150;
 if strcmp('fir', filter_type)
-   fir_order = 150;
-   filters = fir_filters(fir_order, fs, bands);
+   order = 150;
+   filters = fir_filters(order, fs, bands);
 else
-   iir_order = 4;
-   filters = iir_filters(iir_order, fs, bands);
+   order = 4;
+   filters = iir_filters(order, fs, bands);
 end
 
 acc_filtered = data .* 0;
@@ -42,6 +43,8 @@ for i = 1:length(filters)
     x.NormalizedFrequency = 'off';
     x.fs = fs;
     x.Name = [mat2str(bands(i,:)) 'Hz'];
+    [z, p, k] = tf2zpk(filters(i).Numerator, filters(i).Denominator);
+    fprintf('The gain of %s filter : %s  is %f , Order is %d \n',filter_type, freq_range_plt(i,:), k, order);
     filtered = filter(filters(i).Numerator, filters(i).Denominator, data);
     plot_time_frequency_domain(filtered, output_fs, ['Filter output in time ' freq_range_plt(i,:)], ['Filter output in frequency ' freq_range_plt(i,:)]);
     acc_filtered = filtered * (10 ^ (gains(i) / 20)) + acc_filtered;
