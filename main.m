@@ -35,18 +35,20 @@ else
 end
 
 acc_filtered = data .* 0;
-for i = 1:length(filters)
+
+freq_range_plt = [' 0-170  HZ'; '170-310 HZ'; '310-600 HZ'; '0.6-1  KHZ'; '1-3    KHZ'; '3-6    KHZ'; '6-12   KHZ'; '12-14  KHZ'; '14-16  KHZ'];
+for i = 1:length(filters)    
     x = fvtool(filters(i).Numerator, filters(i).Denominator);
     x.NormalizedFrequency = 'off';
     x.fs = fs;
     x.Name = [mat2str(bands(i,:)) 'Hz'];
     filtered = filter(filters(i).Numerator, filters(i).Denominator, data);
-    plot_time_frequency_domain(filtered, output_fs);
+    plot_time_frequency_domain(filtered, output_fs, ['Filter output in time ' freq_range_plt(i,:)], ['Filter output in frequency ' freq_range_plt(i,:)]);
     acc_filtered = filtered * (10 ^ (gains(i) / 20)) + acc_filtered;
 end
 
 acc_filtered = resample(acc_filtered, output_fs, fs); %resample to the output fs
-plot_time_frequency_domain(data, original_fs, acc_filtered, output_fs);
+plot_time_frequency_domain(data, original_fs, 'Input in time ', 'Input in freq. ', acc_filtered, output_fs, 'Output in freq.', 'Output in time.');
 
 [file, path] = uiputfile('*.wav');
 fullFileName = fullfile(path, file);
